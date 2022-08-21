@@ -11,7 +11,7 @@ dotenv_1.default.config({
 const models_1 = require("../models");
 console.log("tao database ten: book_store_dev truoc khi chay");
 models_1.db.sequelize
-    .sync({ force: true })
+    .sync({ force: process.env.FORCE_DB === "true" })
     .then(() => {
     console.log("Database synced");
 })

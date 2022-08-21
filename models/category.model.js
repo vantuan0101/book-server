@@ -4,15 +4,18 @@ const sequelize_1 = require("sequelize");
 function Category(sequelize) {
     class Category extends sequelize_1.Model {
         static associate(models) {
-            Category.hasMany(models.Book, {
-                foreignKey: "rootCategoryId",
-                as: "booksRootCategory",
-            });
-            Category.belongsToMany(models.Book, {
-                through: "BookCategory",
-                as: "books",
+            this.belongsToMany(models.Book, {
+                through: "book_category",
                 foreignKey: "categoryId",
-                otherKey: "bookId",
+                as: "books",
+            });
+            this.hasMany(models.Category, {
+                foreignKey: "parentId",
+                as: "children",
+            });
+            this.belongsTo(models.Category, {
+                foreignKey: "parentId",
+                as: "parent",
             });
         }
     }
@@ -24,12 +27,17 @@ function Category(sequelize) {
             allowNull: false,
         },
         name: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.STRING(255),
             allowNull: false,
         },
         detail: {
-            type: sequelize_1.DataTypes.TEXT,
+            type: sequelize_1.DataTypes.JSON,
             allowNull: false,
+        },
+        deleted: {
+            type: sequelize_1.DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
         },
     }, {
         sequelize,

@@ -4,9 +4,13 @@ const sequelize_1 = require("sequelize");
 function BookDetail(sequelize) {
     class BookDetail extends sequelize_1.Model {
         static associate(models) {
-            BookDetail.belongsTo(models.Book, {
+            this.belongsTo(models.Book, {
                 foreignKey: "bookId",
                 as: "book",
+            });
+            this.belongsTo(models.User, {
+                foreignKey: "ownerId",
+                as: "user",
             });
         }
     }
@@ -18,16 +22,21 @@ function BookDetail(sequelize) {
             allowNull: false,
         },
         name: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.STRING(255),
             allowNull: false,
         },
         description: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.JSON,
             allowNull: false,
         },
         price: {
             type: sequelize_1.DataTypes.INTEGER,
             allowNull: false,
+        },
+        deleted: {
+            type: sequelize_1.DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
         },
     }, {
         sequelize,

@@ -4,23 +4,28 @@ const sequelize_1 = require("sequelize");
 function Book(sequelize) {
     class Book extends sequelize_1.Model {
         static associate(models) {
-            Book.hasMany(models.BookDetail, {
+            this.belongsToMany(models.Category, {
+                through: "book_category",
+                foreignKey: "bookId",
+                as: "categories",
+            });
+            this.hasMany(models.BookDetail, {
                 foreignKey: "bookId",
                 as: "bookDetails",
             });
-            Book.belongsTo(models.Category, {
-                foreignKey: "rootCategoryId",
-                as: "category",
-            });
-            Book.belongsToMany(models.Category, {
-                through: "BookCategory",
-                as: "categories",
-                foreignKey: "bookId",
-                otherKey: "categoryId",
-            });
-            Book.belongsTo(models.Author, {
+            this.belongsTo(models.Author, {
                 foreignKey: "authorId",
                 as: "author",
+            });
+            this.belongsToMany(models.UploadFile, {
+                through: "book_upload",
+                foreignKey: "bookId",
+                as: "uploadFiles",
+                otherKey: "mediaId",
+            });
+            this.belongsTo(models.User, {
+                foreignKey: "ownerId",
+                as: "user",
             });
         }
     }
@@ -32,16 +37,31 @@ function Book(sequelize) {
             allowNull: false,
         },
         name: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.STRING(255),
             allowNull: false,
         },
         description: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.JSON,
             allowNull: false,
         },
         about: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.JSON,
             allowNull: false,
+        },
+        isNew: {
+            type: sequelize_1.DataTypes.BOOLEAN,
+            allowNull: true,
+            defaultValue: false,
+        },
+        isHot: {
+            type: sequelize_1.DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+        },
+        deleted: {
+            type: sequelize_1.DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
         },
     }, {
         sequelize,

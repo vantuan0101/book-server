@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("./config/pre-start");
-require("reflect-metadata");
 require("express-async-errors");
 const express_1 = __importDefault(require("express"));
 const routes_1 = __importDefault(require("./routes"));
@@ -57,13 +56,12 @@ app.use((0, hpp_1.default)({
         "price",
     ],
 }));
-
+// Error handling
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 // Serving static files
 const publicDir = path_1.default.join(__dirname, "./public");
 app.use("/public", express_1.default.static(publicDir));
 app.use("/api/v1/", routes_1.default);
-// Error handling
 app.use((err, _, res, __) => {
     console.log(err);
     const status = err instanceof errors_1.CustomError ? err.HttpStatus : http_status_codes_1.StatusCodes.BAD_REQUEST;
