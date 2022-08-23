@@ -14,7 +14,9 @@ const sequelize = new Sequelize({
   port: Number(process.env.DATABASE_PORT),
   logging: env === "development" ? console.log : false,
 });
-const models = {};
+const models = {
+
+};
 
 fs.readdirSync(__dirname)
   .filter((file) => {
