@@ -14,7 +14,9 @@ const sequelize = new Sequelize({
   port: Number(process.env.DATABASE_PORT),
   logging: env === "development" ? console.log : false,
 });
-const models = {};
+const models = {
+
+};
 
 fs.readdirSync(__dirname)
   .filter((file) => {
@@ -24,7 +26,6 @@ fs.readdirSync(__dirname)
     const Model = require(path.join(__dirname, file));
     models[Model["name"]] = Model(sequelize);
   });
-console.log(models);
 Object.keys(models).forEach((modelName) => {
   if (models[modelName].associate) {
     models[modelName].associate(models);

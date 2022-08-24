@@ -32,15 +32,19 @@ module.exports = function Category(sequelize) {
         type: DataTypes.STRING(255),
         allowNull: false,
       },
-      detail: {
-        type: DataTypes.JSON,
-        allowNull: false,
-      },
       deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
       },
+      detail: {
+        type: DataTypes.JSON,
+        allowNull: false,
+      },
+      parentId: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      }
     },
     {
       sequelize,

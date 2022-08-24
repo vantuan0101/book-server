@@ -9,6 +9,7 @@ const path = {
   createCategory: "/",
   updateCategory: "/:id",
   deleteCategory: "/:id",
+  addCategoryDetail: "/:id/details"
 };
 
 categoryRouter.get(path.getAllCategories, categoryController.getAllCategories);

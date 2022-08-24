@@ -1,6 +1,5 @@
 const CategoryService = require("../service/category.service.js");
-const BadRequestError = require("../shared/errors.js").BadRequestError;
-const NotFoundError = require("../shared/errors.js").NotFoundError;
+const { BadRequestError, NotFoundError } = require("../shared/errors.js")
 class CategoryController {
   async getAllCategories(req, res) {
     const categories = await CategoryService.getAllCategories();
