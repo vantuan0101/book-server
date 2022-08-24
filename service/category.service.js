@@ -1,14 +1,13 @@
 const db = require("../models/index.js");
 const { NotFoundError } = require("../shared/errors");
-console.log(db);
 const Models = db.models;
 
 const CategoryService = {
   async getAllCategories() {
-    return await Models.Category.findAll({ where: { deleted: false } });
+    return await Models.Category.findAll({ where: { deleted: false }, include: ["parent", "children"] });
   },
   async getCategoryById(id) {
-    const category = await Models.Category.findByPk(id)
+    const category = await Models.Category.findByPk(id, { include: ["parent", "children"] })
     return category.deleted ? null : category;
   },
   async createCategory(category) {

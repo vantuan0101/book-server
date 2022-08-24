@@ -26,7 +26,6 @@ fs.readdirSync(__dirname)
     const Model = require(path.join(__dirname, file));
     models[Model["name"]] = Model(sequelize);
   });
-console.log(models);
 Object.keys(models).forEach((modelName) => {
   if (models[modelName].associate) {
     models[modelName].associate(models);
