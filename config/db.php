@@ -2,8 +2,13 @@
     class db{
             private $servername = "localhost";
             private $username = "root";
+<<<<<<< HEAD
             private $password = "Ngoclinh08012003";
             private $dbname="bookshop";
+=======
+            private $password = "";
+            private $dbname="book_server";
+>>>>>>> 6b02de3876d8ceaae252eae06800ec05f64b3ed4
             private $conn;
 
             public function connect(){

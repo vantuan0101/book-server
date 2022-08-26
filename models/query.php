@@ -1,6 +1,7 @@
 <?php
     class Query{
         private $connect;
+<<<<<<< HEAD
         private $bookId;
         private $bookOwnerId;
         private $bookName;
@@ -12,10 +13,13 @@
         private $bookIsNew;
         private $bookIsHot;
         private $bookAuthorId;
+=======
+>>>>>>> 6b02de3876d8ceaae252eae06800ec05f64b3ed4
 
         public function __construct($db){
             $this->connect =$db;
         }
+<<<<<<< HEAD
 
         public function getBookDetail($bookId){
             $query="select id,ownerId,name,description,about,deleted,createAt,updateAt,isNew,isHot,authorId from books where id =?";
@@ -53,4 +57,6 @@
             );
             return $query_item;
         }
+=======
+>>>>>>> 6b02de3876d8ceaae252eae06800ec05f64b3ed4
     }
