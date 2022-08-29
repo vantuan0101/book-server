@@ -3,12 +3,12 @@ const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function Category(sequelize) {
   class Category extends Model {
-
     static associate(models) {
       this.belongsToMany(models.Book, {
         through: "book_category",
         foreignKey: "categoryId",
         as: "books",
+        otherKey: "bookId",
       });
       this.hasMany(models.Category, {
         foreignKey: "parentId",
@@ -43,8 +43,8 @@ module.exports = function Category(sequelize) {
       },
       parentId: {
         type: DataTypes.INTEGER,
-        allowNull: true
-      }
+        allowNull: true,
+      },
     },
     {
       sequelize,
@@ -54,4 +54,4 @@ module.exports = function Category(sequelize) {
     }
   );
   return Category;
-}
+};

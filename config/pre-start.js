@@ -14,3 +14,8 @@ db.sequelize
   .catch((err) => {
     console.log(err);
   });
+
+const BookService = require("../service/book.service");
+(async () => {
+  console.log(await BookService.getBooksByCategory(4));
+})();
