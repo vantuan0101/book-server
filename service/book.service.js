@@ -54,6 +54,6 @@ const BookService = {
     });
     return category.Books;
   },
-  //toDo:
+  //toDo: getBookByAuthor, getBookByOwnerUser, pagination
 };
 module.exports = BookService;
