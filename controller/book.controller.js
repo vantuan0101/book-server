@@ -2,9 +2,18 @@ const BookService = require("../service/book.service.js");
 const { BadRequestError, NotFoundError } = require("../shared/errors.js");
 class BookController {
   async getAllBooks(req, res) {
-    const books = await BookService.getAllBooks;
+    const books = await BookService.getAllBooks();
     res.status(200).json(books);
   }
+  async getHotBooks(req, res) {
+    const hotBooks = await BookService.getHotBooks();
+    res.status(200).json(hotBooks);
+  }
+  async getNewBooks(req, res) {
+    const newBooks = await BookService.getNewBooks();
+    res.status(200).json(newBooks);
+  }
+
   //get ../books/id
   async getBookById(req, res) {
     const { id } = req.params;
