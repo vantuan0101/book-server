@@ -15,6 +15,7 @@ const CategoryService = {
     });
     return category.deleted ? null : category;
   },
+
   async createBook(book) {
     return await Models.Book.create(book);
   },
@@ -53,5 +54,6 @@ const CategoryService = {
     });
     return category.Books;
   },
+  //toDo:
 };
 module.exports = CategoryService;
