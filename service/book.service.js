@@ -2,7 +2,7 @@ const db = require("../models/index.js");
 const { NotFoundError } = require("../shared/errors");
 const Models = db.models;
 
-const CategoryService = {
+const BookService = {
   async getAllBooks() {
     return await Models.Book.findAll({
       where: { deleted: false },
@@ -56,4 +56,4 @@ const CategoryService = {
   },
   //toDo:
 };
-module.exports = CategoryService;
+module.exports = BookService;
