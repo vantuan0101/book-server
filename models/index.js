@@ -15,6 +15,7 @@ const sequelize = new Sequelize({
   logging: env === "development" ? console.log : false,
 });
 const models = {
+  Book: undefined
 
 };
 
