@@ -1,19 +1,25 @@
 const db = require("../models/index.js");
 const { NotFoundError } = require("../shared/errors");
+const { Op } = require("sequelize");
 const Models = db.models;
 
 const BookService = {
-  async getAllBooks() {
-    return await Models.Book.findAll({
-      where: { deleted: false },
-      include: ["uploadFiles"],
-    });
+  async getAllBooks(limit, offset) {
+    const query = { where: { deleted: false }, include: ["uploadFiles"] };
+    if (limit) {
+      query.limit = limit;
+    }
+    if (offset) {
+      query.offset = offset;
+    }
+    return await Models.Book.findAndCountAll(query);
   },
   async getBookById(id) {
-    const category = await Models.Category.findByPk(id, {
+    const book = await Models.Book.findByPk(id, {
       include: ["uploadFiles", "author", "bookDetails", "categories", "user"],
+      where: { deleted: false },
     });
-    return category.deleted ? null : category;
+    return book;
   },
 
   async createBook(book) {
@@ -30,19 +36,34 @@ const BookService = {
       { where: { id } }
     );
   },
-  async getHotBooks() {
-    return await Models.Book.findAll({
+  async getHotBooks(limit, offset) {
+    const query = {
       where: { deleted: false, isHot: true },
       include: ["uploadFiles"],
-    });
+    };
+    if (limit) {
+      query.limit = limit;
+    }
+    if (offset) {
+      query.offset = offset;
+    }
+    return await Models.Book.findAndCountAll(query);
   },
   async getNewBooks() {
-    return await Models.Book.findAll({
+    const query = {
       where: { deleted: false, isNew: true },
       include: ["uploadFiles"],
-    });
+    };
+    if (limit) {
+      query.limit = limit;
+    }
+    if (offset) {
+      query.offset = offset;
+    }
+    return await Models.Book.findAndCountAll(query);
   },
   async getBooksByCategory(categoryId) {
+    //toDo: add pagination for this case
     const category = await Models.Category.findByPk(categoryId, {
       include: [
         {
@@ -52,8 +73,8 @@ const BookService = {
         },
       ],
     });
-    return category.Books;
+    return category.books;
   },
-  //toDo:
+  //toDo: getBookByAuthor, getBookByOwnerUser
 };
 module.exports = BookService;

@@ -7,6 +7,7 @@ module.exports = function Book(sequelize) {
         through: "book_category",
         foreignKey: "bookId",
         as: "categories",
+        otherKey: "categoryId",
       });
       this.hasMany(models.BookDetail, {
         foreignKey: "bookId",
@@ -72,4 +73,4 @@ module.exports = function Book(sequelize) {
     }
   );
   return Book;
-}
+};
