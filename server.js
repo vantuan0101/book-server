@@ -1,6 +1,7 @@
+require('./config/pre-start')
+require("express-async-errors");
 const express = require("express");
-const { sequelize } = require("./models");
-const { rootRouter } = require("./routes");
+const rootRouter = require("./routes/index.js");
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
 const xss = require("xss-clean");
@@ -8,8 +9,11 @@ const hpp = require("hpp");
 const helmet = require("helmet");
 const dotenv = require("dotenv");
 const path = require("path");
-// eslint-disable-next-line import/newline-after-import
 const cors = require("cors");
+
+const CustomError = require("./shared/errors.js").CustomError;
+const StatusCodes = require("http-status-codes").StatusCodes;
+
 const app = express();
 app.enable("trust proxy"); // trust first proxy
 dotenv.config({ path: "./config.env" });
@@ -21,7 +25,7 @@ app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 
 // Implement CORS
 // eslint-disable-next-line prettier/prettier
-app.use(cors({ credentials: true, origin: true })); 
+app.use(cors({ credentials: true, origin: true }));
 app.use(cookieParser());
 
 app.use(
@@ -49,19 +53,27 @@ app.use(
     ],
   })
 );
+
+// Error handling
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 // Serving static files
 const publicDir = path.join(__dirname, "./public");
 app.use("/public", express.static(publicDir));
 app.use("/api/v1/", rootRouter);
+app.use(
+  (err, _, res, __) => {
+    console.log(err);
+    const status =
+      err instanceof CustomError ? err.HttpStatus : StatusCodes.BAD_REQUEST;
+    return res.status(status).json({
+      error: err.message,
+    });
+  }
+);
 
 const port = process.env.PORT || 3000;
 
 app.listen(port, async () => {
   console.log(`Server is running on port http://localhost:${port}`);
-  try {
-    await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-  }
 });
